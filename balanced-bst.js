@@ -141,6 +141,23 @@ class tree  {
         }
         console.log("Lets print this tree preOrder...", `${this.preOrderData}`);
     }
+
+    postOrder (root = this.root) {
+        if  (root == null) return;
+
+        if  (root.left !== null) {
+            this.postOrder (root.left);
+        }
+
+        if (root.right !== null) {
+            this.postOrder (root.right);
+        }
+
+        if (root.data !== undefined) {
+            this.postOrderData.push (root.data);
+        }
+        console.log ("Lets  print this  tree postOrder...",  `${this.postOrderData}`);
+    }
 };
 
 function minValue (root) {
