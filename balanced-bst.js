@@ -124,6 +124,23 @@ class tree  {
         }
         console.log ("Lets print this tree inOrder...", `${this.inOrderData}`);
     }
+
+    preOrder ( root = this.root) {
+        if (root == null) return;
+
+        if  (root.data !== undefined) {
+            this.preOrderData.push(root.data);
+        }
+
+        if (root.left !== null) {
+            this.preOrder(root.left);
+        }
+
+        if (root.right !== null) {
+            this.preOrder (root.right);
+        }
+        console.log("Lets print this tree preOrder...", `${this.preOrderData}`);
+    }
 };
 
 function minValue (root) {
