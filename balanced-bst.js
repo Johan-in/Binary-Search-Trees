@@ -25,7 +25,9 @@ class  node  {
 class tree  {
     constructor (inputArray) {
         this.root = this.buildTree (inputArray, 0, inputArray.length -1);
-        prettyPrint(this.root);
+        this.preOrderData = [];
+        this.inOrderData = [];
+        this.postOrderData = [];
     }
 
     buildTree (inputArray, start, end) {
@@ -106,7 +108,22 @@ class tree  {
         return result;
     }
 
-    
+    inOrder (root = this.root) {
+        if  (root == null) return;
+
+        if (root.left !== null) {
+            this.inOrder (root.left);
+        }
+
+        if (root.data !== undefined) {
+            this.inOrderData.push(root.data);
+        }
+
+        if (root.right !== null) {
+            this.inOrder(root.right);
+        }
+        console.log ("Lets print this tree inOrder...", `${this.inOrderData}`);
+    }
 };
 
 function minValue (root) {
