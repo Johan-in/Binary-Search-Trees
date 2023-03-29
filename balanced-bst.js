@@ -86,6 +86,27 @@ class tree  {
         prettyPrint(this.root);
         return root;
     }
+
+    levelOrder (root = this.root) {
+        const queue = [];
+        const result = [];
+
+        if (root == null) return;
+
+        queue.push(root);
+
+        while (queue.length > 0) {
+            let current = queue.shift (root);
+            result.push(current.data);
+
+            if (current.left !== null) queue.push (current.left);
+            if (current.right !== null) queue.push(current.right);
+        }
+        console.log("Lets level Order this tree...", result);
+        return result;
+    }
+
+    
 };
 
 function minValue (root) {
@@ -106,4 +127,8 @@ balancedBST = new tree (testInputArray, 1, 7);
 balancedBST.insert(8);
 balancedBST.delete(3);
 console.log (balancedBST.find(8));
+balancedBST.levelOrder();
+balancedBST.inOrder ();
+balancedBST.preOrder();
+balancedBST.postOrder ();
 
