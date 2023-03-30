@@ -24,6 +24,7 @@ class  node  {
 
 class tree  {
     constructor (inputArray) {
+        this.inputArray = [...removeDuplicates(mergeSort(inputArray))];
         this.root = this.buildTree (inputArray, 0, inputArray.length -1);
         this.preOrderData = [];
         this.inOrderData = [];
@@ -158,6 +159,66 @@ class tree  {
         }
         console.log ("Lets  print this  tree postOrder...",  `${this.postOrderData}`);
     }
+
+    height ( root = this.root) {
+        if  ( root == null ) {
+            return -1;
+        } else {
+            let left = this.height (root.left);
+            let right  = this.height (root.right);
+
+            return Math.max(left, right) + 1;
+        }
+    }
+
+    depth (nodeVal, root = this.root, edgeCount = 0) {
+        if (root === null) return;
+        if (root.data === nodeVal) return edgeCount;
+
+        if (root.data < nodeVal) {
+            return this.depth(nodeVal, root.right, (edgeCount +1));
+        } else  {
+            return this.depth (nodeVal, root.left, (edgeCount +1));
+        }
+    }
+
+    isBalanced (root = this.root) {
+        if (root == null) return  false;
+        
+        let leftHalf = root.left;
+        let rightHalf = root.right;
+
+        if (Math.abs(this.height(leftHalf) - this.height(rightHalf)) > 1) {
+            return false;
+        } else  {
+            return true;
+        }
+    }
+
+    rebalance  () {
+        prettyPrint (this.root);
+        if (this.isBalanced(this.root)) return  this.root;
+
+        let  rebalancedNewTreeArray = [];
+        rebalancedNewTreeArray = this.traverse(this.root, rebalancedNewTreeArray);
+
+        let balancedTree = new tree(rebalancedNewTreeArray);
+        prettyPrint(balancedTree.root);
+        console.log("Is the tree now balanced??...", balancedTree.isBalanced());
+        return balancedTree.root;
+    }
+
+    traverse (root, array) {
+        if (array !== undefined) array.push (root.data);
+        if (root.left !== null) {
+            this.traverse (root.left, array);
+        }
+
+        if (root.right !== null) {
+            this.traverse (root.right, array)
+        }
+        return array;
+    }
 };
 
 function minValue (root) {
@@ -168,6 +229,29 @@ function minValue (root) {
     }
     prettyPrint ( this.root);
     return min;
+};
+
+function mergeSort (inputArray) {
+    if (inputArray.length == 1) return inputArray;
+
+    const newArray = [];
+
+    const left =  mergeSort(inputArray.slice(0, inputArray.length / 2));
+    const right = mergeSort(inputArray.slice(inputArray.length / 2));
+
+    while (left.length && right.length) {
+        if (left[0] < right[0]) {
+            newArray.push(left.shift());
+        } else {
+            newArray.push(right.shift());
+        }
+    }
+
+    return [...newArray, ...left, ...right];
+};
+
+function removeDuplicates (inputArray) {
+    return [...new Set(inputArray)];
 };
 
 
@@ -182,4 +266,8 @@ balancedBST.levelOrder();
 balancedBST.inOrder ();
 balancedBST.preOrder();
 balancedBST.postOrder ();
+console.log("Tree Height...", balancedBST.height());
+console.log("Tree Depth...", balancedBST.depth(7));
+console.log("Is the tree balanced??...", balancedBST.isBalanced());
+console.log("Rebalancing the tree!...", balancedBST.rebalance());
 
